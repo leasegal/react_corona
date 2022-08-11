@@ -2,7 +2,7 @@ import styles from "./country.module.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import React from "react";
-import Display from "../../../components/display/Display";
+import Display from "../../components/display/Display";
 
 const Country = ({ numberWithCommas,code }) => {
   const [todayDataCountry, setTodayDataCountry] = useState({});
