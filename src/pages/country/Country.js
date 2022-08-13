@@ -3,34 +3,42 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import React from "react";
 import Display from "../../components/display/Display";
+import { useParams } from "react-router-dom";
 
-const Country = ({ numberWithCommas,code }) => {
-  const [todayDataCountry, setTodayDataCountry] = useState({});
+const Country = ({ countries, numberWithCommas, code }) => {
+  const [choosedCountry, setChoosedCountry] = useState({});
+  const countryName = useParams().country;
+  console.log("countryName: ", countryName);
+
   useEffect(() => {
     async function fetchDataOfCountry() {
-      const url = `https://corona-api.com/countries/${code}`
-      const content = await axios.get(url);
-      const contentData = content.data.data;
-      setTodayDataCountry(contentData);
-      console.log("todayDataCountry: ", todayDataCountry.today);
+      var url = `https://corona-api.com/countries/${code}`;
+      var content = await axios.get(url);
+      var contentData = content.data.data;
+      console.table(contentData);
+      setChoosedCountry(contentData);
+      // console.log("choosedCountry: ",choosedCountry );
     }
     fetchDataOfCountry();
   }, [code]);
-
-  const { deaths, recovered, critical,confirmed } = todayDataCountry.latest_data;
+  
+  // console.log("ghgjghjh: ",choosedCountry);
+  console.log("choosedCountry.latest_data: ",choosedCountry.latest_data);
+  const { deaths, recovered, critical, confirmed } =
+  choosedCountry.latest_data;
   const objTodayDataCountry = {
-    confirmed,
+    "cases": confirmed,
     deaths,
     recovered,
     critical,
-    // cases: todayDataCountry.timeline[0].active,
-    today: todayDataCountry.today.confirmed,
+    "today": choosedCountry.today.confirmed,
   };
-  
 
   return (
     <div>
-      <div>{todayDataCountry.name} {todayDataCountry.updated_at.split("T")[0]}</div>
+      <div>
+        {choosedCountry.name} {choosedCountry.updated_at.split("T")[0]}
+      </div>
       <Display
         object={objTodayDataCountry}
         numberWithCommas={numberWithCommas}

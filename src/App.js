@@ -3,17 +3,16 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Switch } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
 import axios from "axios";
-import Select from "./components/Select/Select";
-import Total from "./components/Total/Total";
 import Home from "./pages/home/Home";
-import Country from "./pages/home/country/Country";
+import Country from "./pages/country/Country";
+import About from "./pages/About/About";
+
 function App() {
   function numberWithCommas(x) {
     return x?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
-  const [code, setCode] = useState("");
   const [countries, setCountries] = useState([]);
-  const [choosedCountry, setChoosedCountry] = useState("");
+  const [code, setCode] = useState("");
 
   useEffect(() => {
     try {
@@ -21,7 +20,7 @@ function App() {
         const coronaApi = "https://corona-api.com/countries";
         const { data } = await axios.get(coronaApi);
         setCountries(data.data);
-        console.log(`countries: ${countries}`);
+        // console.table(countries);
       }
       fetchData();
     } catch (err) {
@@ -31,24 +30,19 @@ function App() {
 
   return (
     <div className="App">
-      <NavBar
-        countries={countries}
-        choosedCountry={choosedCountry}
-        setChoosedCountry={setChoosedCountry}
-        code={code} setCode={setCode}
-      />
+      <NavBar countries={countries} setCode={setCode}/>
       <Routes>
-        <Route
+        <Route 
           path="/"
-          element={<Home numberWithCommas={numberWithCommas} />}
+          element={
+            <Home numberWithCommas={numberWithCommas} countries={countries} />
+          }
         />
         <Route
-          path="/country"
-          element={<Country numberWithCommas={numberWithCommas} 
-          code={code}/>}
+          path="/:country"
+          element={<Country numberWithCommas={numberWithCommas} code={code}/>}
         />
-        <Route />
-        <Route />
+        <Route path="/about" element={<About />} />
       </Routes>
     </div>
   );

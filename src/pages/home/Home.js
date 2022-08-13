@@ -4,7 +4,10 @@ import { useState } from "react";
 import { useEffect } from "react";
 import Display from "../../components/display/Display";
 import styles from "./Home.module.css";
-const Home = ({ numberWithCommas }) => {
+import Most from "../../components/most/Most";
+
+const Home = ({ numberWithCommas, countries }) => {
+
   const [today, setToday] = useState({});
 
   useEffect(() => {
@@ -13,20 +16,63 @@ const Home = ({ numberWithCommas }) => {
       const { data } = await axios.get(url);
       const todayData = data.data[0];
       setToday(todayData);
-      console.log("today: ", todayData.updated_at);
-      
+      console.log("Total Cases: ", todayData.deaths + todayData.confirmed);
     }
     fetchData();
   }, []);
+  const arrayObjMost = [
+    {
+      countries: countries,
+      paramToSort1: "latest_data",
+      paramToSort2: "deaths",
+      numberWithCommas,
+      title: "most deaths all time",
+    },
+    {
+      countries: countries,
+      paramToSort1: "latest_data",
+      paramToSort2: "confirmed",
+      numberWithCommas,
+      title: "most confirmed all time",
+    },
+    {
+      countries: countries,
+      paramToSort1: "today",
+      paramToSort2: "deaths",
+      numberWithCommas,
+      title: "most deaths today",
+    },
+    {
+      countries: countries,
+      paramToSort1: "today",
+      paramToSort2: "confirmed",
+      numberWithCommas,
+      title: "most confirmed today",
+    },
+  ];
 
-  const { deaths, recovered, new_recovered, new_deaths, date } = today;
-  let objToDisplay = { deaths, recovered, new_recovered, new_deaths };
-
+  const { recovered, confirmed, deaths, date, new_confirmed, new_deaths } =
+    today;
+  let objToDisplay = {
+    deaths,
+    recovered,
+    "new cases": new_confirmed,
+    "new deaths": new_deaths,
+  };
   return (
-    <div >
+    <div>
       <h3>correct data for: {date}</h3>
-      <h3>Total Cases <br/>{numberWithCommas(today.confirmed)}</h3>
-      <Display  object={objToDisplay} numberWithCommas={numberWithCommas}/>
+      <h3>
+        Total Cases <br />
+        {numberWithCommas(deaths + confirmed)}
+      </h3>
+      
+      <Display object={objToDisplay} numberWithCommas={numberWithCommas} />
+      <div style={{ display: "flex" }}>
+        {arrayObjMost.map((el,i) => {
+          return <Most object={el} key={el.paramToSort1+i}/>;
+        })}
+      </div>
     </div>
   );
 };

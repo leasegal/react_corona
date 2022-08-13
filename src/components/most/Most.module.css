@@ -1,0 +1,14 @@
+.most {
+  border-radius: 10%;
+  border: 1px solid black;
+  margin: 30px;
+  width: 30%;
+}
+a{
+  text-decoration: none;
+  color: black;
+}
+a:visited{color: black;}
+a:hover{  text-decoration: underline;
+  
+}
