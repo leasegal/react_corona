@@ -22,7 +22,7 @@ const Most = ({ object }) => {
 
       {sortCountries.map((el, i) => {
         return (
-          <Link to={"../"+el.name}> <h5 key={el.name+i} >
+          <Link to={"../"+el.name}  key={el.name+i}> <h5 >
           {i + 1}. {el.name}{" "}
           {numberWithCommas(el[paramToSort1][paramToSort2])}
         </h5></Link>
