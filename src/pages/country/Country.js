@@ -5,34 +5,46 @@ import React from "react";
 import Display from "../../components/display/Display";
 import { useParams } from "react-router-dom";
 
-const Country = ({ countries, numberWithCommas, code }) => {
-  const [choosedCountry, setChoosedCountry] = useState({});
-  const countryName = useParams().country;
-  console.log("countryName: ", countryName);
-
+const Country = ({ countries, numberWithCommas, code ,nameOfCountry}) => {
+ 
+  // const countryName = useParams().country;
+console.log("countryNameCountry: ", nameOfCountry);
+console.log("codeOnCountry: ",code);
+const [choosedCountry, setChoosedCountry] =useState({})
+var contentData={};
   useEffect(() => {
+  
     async function fetchDataOfCountry() {
+      console.log("codeInUseEffect: ",code);
       var url = `https://corona-api.com/countries/${code}`;
       var content = await axios.get(url);
-      var contentData = content.data.data;
-      console.table(contentData);
-      setChoosedCountry(contentData);
-      // console.log("choosedCountry: ",choosedCountry );
+      // contentData = content.data.data;
+      // console.log("contentData.latest_data.useEffect",contentData.latest_data);
+      // setChoosedCountry(contentData);//לא טוב לעשות סטייט בתוך היוז אפקט כיוון שלוקח זמן לסטייט להתעדכן ומימילא כבר יוצא החוצה ולא יודע לעבוד על המשתנה התקין לכן הכנסתי את מה שהתקבל במשתנה רגיל
+      // console.log("choosedCountryUseEffect: ", choosedCountry);
+      setChoosedCountry(content.data.data)
+      console.log("setChoosedCountryInUseEffect: ",choosedCountry);
     }
     fetchDataOfCountry();
-  }, [code]);
+  },[code]);
+
+console.log("setChoosedCountryAfterUseEffect.latest_data: ",choosedCountry.latest_data);
+
   
-  // console.log("ghgjghjh: ",choosedCountry);
-  console.log("choosedCountry.latest_data: ",choosedCountry.latest_data);
-  const { deaths, recovered, critical, confirmed } =
-  choosedCountry.latest_data;
-  const objTodayDataCountry = {
-    "cases": confirmed,
+  //כל הבעיה היא שמחוץ ליוז אפקט לא התעדכן לי הדאטה הנכון למה ????
+  // const latestData = contentData.latest_data;
+  // console.log("latestDataAfterUseEffect:",latestData);
+
+  // // console.log("choosedCountry.latest_data: ", contentData.latest_data);
+  const { deaths, recovered, critical, confirmed } = choosedCountry.latest_data;
+  const objTodayDataChoosedCountry = {
+    cases: confirmed,
     deaths,
     recovered,
     critical,
-    "today": choosedCountry.today.confirmed,
+    today: choosedCountry.today.confirmed,
   };
+  console.table(objTodayDataChoosedCountry);
 
   return (
     <div>
@@ -40,7 +52,7 @@ const Country = ({ countries, numberWithCommas, code }) => {
         {choosedCountry.name} {choosedCountry.updated_at.split("T")[0]}
       </div>
       <Display
-        object={objTodayDataCountry}
+        object={objTodayDataChoosedCountry}
         numberWithCommas={numberWithCommas}
       />
     </div>

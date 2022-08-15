@@ -4,7 +4,7 @@ import Country from "../../pages/country/Country";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const Most = ({ object }) => {
+const Most = ({ object,setNameOfCountry,nameOfCountry }) => {
   const navigate= useNavigate();
   const { countries, paramToSort1, paramToSort2, numberWithCommas, title } =
     object;
@@ -21,8 +21,9 @@ const Most = ({ object }) => {
       <h2>{title}</h2>
 
       {sortCountries.map((el, i) => {
+        const {name} =el;
         return (
-          <Link to={"../"+el.name}  key={el.name+i}> <h5 >
+          <Link to={"../"+name}  key={name+i} onClick={()=>{setNameOfCountry(name);}}> <h5 >
           {i + 1}. {el.name}{" "}
           {numberWithCommas(el[paramToSort1][paramToSort2])}
         </h5></Link>

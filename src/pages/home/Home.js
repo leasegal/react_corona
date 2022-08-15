@@ -6,7 +6,7 @@ import Display from "../../components/display/Display";
 import styles from "./Home.module.css";
 import Most from "../../components/most/Most";
 
-const Home = ({ numberWithCommas, countries }) => {
+const Home = ({ numberWithCommas, countries,nameOfCountry,setNameOfCountry }) => {
 
   const [today, setToday] = useState({});
 
@@ -70,7 +70,7 @@ const Home = ({ numberWithCommas, countries }) => {
       <Display object={objToDisplay} numberWithCommas={numberWithCommas} />
       <div style={{ display: "flex" }}>
         {arrayObjMost.map((el,i) => {
-          return <Most object={el} key={el.paramToSort1+i}/>;
+          return <Most object={el} key={el.paramToSort1+i} nameOfCountry={nameOfCountry} setNameOfCountry={setNameOfCountry}/>;
         })}
       </div>
     </div>
