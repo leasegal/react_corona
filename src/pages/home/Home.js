@@ -6,8 +6,12 @@ import Display from "../../components/display/Display";
 import styles from "./Home.module.css";
 import Most from "../../components/most/Most";
 
-const Home = ({ numberWithCommas, countries,nameOfCountry,setNameOfCountry }) => {
-
+const Home = ({
+  numberWithCommas,
+  countries,
+  nameOfCountry,
+  setNameOfCountry,
+}) => {
   const [today, setToday] = useState({});
 
   useEffect(() => {
@@ -66,11 +70,17 @@ const Home = ({ numberWithCommas, countries,nameOfCountry,setNameOfCountry }) =>
         Total Cases <br />
         {numberWithCommas(deaths + confirmed)}
       </h3>
-      
+
       <Display object={objToDisplay} numberWithCommas={numberWithCommas} />
       <div style={{ display: "flex" }}>
-        {arrayObjMost.map((el,i) => {
-          return <Most object={el} key={el.paramToSort1+i} nameOfCountry={nameOfCountry} setNameOfCountry={setNameOfCountry}/>;
+        {arrayObjMost.map((el, i) => {
+          return (
+            <Most
+              object={el}
+              key={el.paramToSort1 + el.paramToSort2}
+              setNameOfCountry={setNameOfCountry}
+            />
+          );
         })}
       </div>
     </div>

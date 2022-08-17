@@ -4,7 +4,7 @@ import React from "react";
 
 const Display = ({ object, numberWithCommas }) => {
   return (
-    <div style={{ display: "flex"}}>
+    <div style={{ display: "flex" }}>
       {Object.keys(object).map((el, i) => {
         return (
           <div className={styles.displayData} key={el + i}>

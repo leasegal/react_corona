@@ -12,7 +12,6 @@ function App() {
     return x?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
   const [countries, setCountries] = useState([]);
-  const [code, setCode] = useState("IL");
   const [nameOfCountry, setNameOfCountry] = useState("");
 
   useEffect(() => {
@@ -29,19 +28,35 @@ function App() {
     }
   }, []);
 
+  console.log("countriesInApp:", countries);
   return (
     <div className="App">
-      <NavBar countries={countries} setCode={setCode} code={code} nameOfCountry={nameOfCountry} setNameOfCountry={setNameOfCountry}/>
+      <NavBar
+        countries={countries}
+        nameOfCountry={nameOfCountry}
+        setNameOfCountry={setNameOfCountry}
+      />
       <Routes>
-        <Route 
+        <Route
           path="/"
           element={
-            <Home numberWithCommas={numberWithCommas} countries={countries} nameOfCountry={nameOfCountry} setNameOfCountry={setNameOfCountry}/>
+            <Home
+              numberWithCommas={numberWithCommas}
+              countries={countries}
+              nameOfCountry={nameOfCountry}
+              setNameOfCountry={setNameOfCountry}
+            />
           }
         />
         <Route
           path="/:country"
-          element={<Country numberWithCommas={numberWithCommas} code={code} nameOfCountry={nameOfCountry}/>}
+          element={
+            <Country
+              numberWithCommas={numberWithCommas}
+              nameOfCountry={nameOfCountry}
+              countries={countries}
+            />
+          }
         />
         <Route path="/about" element={<About />} />
       </Routes>
