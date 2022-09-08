@@ -3,7 +3,6 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import Display from "../../components/display/Display";
-import styles from "./Home.module.css";
 import Most from "../../components/most/Most";
 
 const Home = ({
